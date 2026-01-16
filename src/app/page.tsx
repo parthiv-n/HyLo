@@ -1,65 +1,133 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import Link from "next/link"
+import { useAccount } from "wagmi"
+import { ConnectButton } from "@/components/wallet/ConnectButton"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { ArrowUpRight, ArrowDownLeft, Zap, Shield, Globe } from "lucide-react"
+
+export default function HomePage() {
+  const { isConnected } = useAccount()
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="min-h-screen flex flex-col bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-950">
+      {/* Background effects */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 -left-1/4 w-1/2 h-1/2 bg-emerald-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-cyan-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 h-1/3 bg-purple-500/5 rounded-full blur-3xl" />
+      </div>
+
+      {/* Header */}
+      <header className="relative z-10 flex items-center justify-between p-4 safe-top">
+        <div className="flex items-center gap-2">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center">
+            <span className="text-white font-bold text-lg">H</span>
+          </div>
+          <span className="text-white font-bold text-xl">HyLo</span>
+        </div>
+        <ConnectButton />
+      </header>
+
+      {/* Main content */}
+      <div className="flex-1 flex flex-col items-center justify-center p-6 relative z-10">
+        {/* Hero */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
+            Send money
+            <br />
+            <span className="gradient-text">anywhere, instantly</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-white/60 text-lg max-w-md mx-auto">
+            Cross-chain payments made simple. Send from any chain, receive on Hyperliquid.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Action buttons */}
+        {isConnected ? (
+          <div className="grid grid-cols-2 gap-4 w-full max-w-sm mb-12">
+            <Link href="/send" className="block">
+              <Card className="bg-emerald-500/10 border-emerald-500/20 hover:bg-emerald-500/20 transition-colors cursor-pointer group h-full">
+                <CardContent className="p-6 flex flex-col items-center justify-center gap-3">
+                  <div className="w-16 h-16 rounded-2xl bg-emerald-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <ArrowUpRight className="w-8 h-8 text-emerald-400" />
+                  </div>
+                  <span className="text-white font-semibold text-lg">Send</span>
+                  <span className="text-white/50 text-sm text-center">
+                    Scan QR to pay
+                  </span>
+                </CardContent>
+              </Card>
+            </Link>
+
+            <Link href="/receive" className="block">
+              <Card className="bg-cyan-500/10 border-cyan-500/20 hover:bg-cyan-500/20 transition-colors cursor-pointer group h-full">
+                <CardContent className="p-6 flex flex-col items-center justify-center gap-3">
+                  <div className="w-16 h-16 rounded-2xl bg-cyan-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <ArrowDownLeft className="w-8 h-8 text-cyan-400" />
+                  </div>
+                  <span className="text-white font-semibold text-lg">Receive</span>
+                  <span className="text-white/50 text-sm text-center">
+                    Show your QR
+                  </span>
+                </CardContent>
+              </Card>
+            </Link>
+          </div>
+        ) : (
+          <div className="text-center mb-12">
+            <p className="text-white/50 mb-4">Connect your wallet to get started</p>
+            <ConnectButton />
+          </div>
+        )}
+
+        {/* Features */}
+        <div className="grid grid-cols-3 gap-6 w-full max-w-md">
+          <div className="flex flex-col items-center text-center">
+            <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-2">
+              <Zap className="w-6 h-6 text-amber-400" />
+            </div>
+            <span className="text-white/70 text-sm">Instant</span>
+          </div>
+          <div className="flex flex-col items-center text-center">
+            <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-2">
+              <Shield className="w-6 h-6 text-emerald-400" />
+            </div>
+            <span className="text-white/70 text-sm">Secure</span>
+          </div>
+          <div className="flex flex-col items-center text-center">
+            <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-2">
+              <Globe className="w-6 h-6 text-cyan-400" />
+            </div>
+            <span className="text-white/70 text-sm">Any Chain</span>
+          </div>
         </div>
-      </main>
-    </div>
-  );
+      </div>
+
+      {/* Footer */}
+      <footer className="relative z-10 p-4 text-center safe-bottom">
+        <p className="text-white/30 text-sm">
+          Powered by{" "}
+          <a
+            href="https://li.fi"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-emerald-400/70 hover:text-emerald-400"
+          >
+            LI.FI
+          </a>
+          {" "}×{" "}
+          <a
+            href="https://hyperliquid.xyz"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-cyan-400/70 hover:text-cyan-400"
+          >
+            Hyperliquid
+          </a>
+        </p>
+      </footer>
+    </main>
+  )
 }
