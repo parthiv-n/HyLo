@@ -18,3 +18,17 @@ export function formatAmount(amount: string | number, decimals: number = 4): str
     maximumFractionDigits: decimals,
   })
 }
+
+// Format token amount from smallest units (e.g., wei) to human-readable format
+export function formatTokenAmount(amount: string | number, tokenDecimals: number = 6, displayDecimals: number = 2): string {
+  const rawAmount = typeof amount === "string" ? parseFloat(amount) : amount
+  if (isNaN(rawAmount)) return "0"
+
+  // Convert from smallest units to human-readable (divide by 10^tokenDecimals)
+  const humanAmount = rawAmount / Math.pow(10, tokenDecimals)
+
+  return humanAmount.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: displayDecimals,
+  })
+}

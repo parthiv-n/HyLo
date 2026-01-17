@@ -3,7 +3,7 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { formatAmount } from "@/lib/utils"
+import { formatAmount, formatTokenAmount } from "@/lib/utils"
 import { ArrowRight, Clock, Fuel, RefreshCw, AlertCircle, Loader2 } from "lucide-react"
 import type { Route } from "@lifi/sdk"
 
@@ -80,7 +80,7 @@ export function QuotePreview({
               )}
               <div>
                 <p className="text-white font-semibold">
-                  {formatAmount(route.fromAmount, 6)} {fromToken.symbol}
+                  {formatTokenAmount(route.fromAmount, fromToken.decimals)} {fromToken.symbol}
                 </p>
                 <p className="text-white/50 text-sm">
                   From {route.fromChainId === 1 ? "Ethereum" : `Chain ${route.fromChainId}`}
@@ -93,7 +93,7 @@ export function QuotePreview({
             <div className="flex items-center gap-3">
               <div className="text-right">
                 <p className="text-white font-semibold">
-                  {formatAmount(route.toAmountMin, 6)} {toToken.symbol}
+                  {formatTokenAmount(route.toAmountMin, toToken.decimals)} {toToken.symbol}
                 </p>
                 <p className="text-white/50 text-sm">To HyperEVM</p>
               </div>

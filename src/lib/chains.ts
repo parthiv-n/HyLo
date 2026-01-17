@@ -22,6 +22,29 @@ export const hyperEVM = defineChain({
   },
 })
 
+// HyperEVM Testnet configuration
+export const hyperEVMTestnet = defineChain({
+  id: 998,
+  name: "HyperEVM Testnet",
+  nativeCurrency: {
+    decimals: 18,
+    name: "HYPE",
+    symbol: "HYPE",
+  },
+  rpcUrls: {
+    default: {
+      http: [process.env.NEXT_PUBLIC_HYPEREVM_TESTNET_RPC || "https://api.hyperliquid-testnet.xyz/evm"],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: "Hyperliquid Testnet Explorer",
+      url: "https://explorer.hyperliquid-testnet.xyz",
+    },
+  },
+  testnet: true,
+})
+
 // Common tokens on HyperEVM
 export const HYPER_TOKENS = {
   USDC: {
@@ -40,7 +63,10 @@ export const HYPER_TOKENS = {
   },
 } as const
 
-// Chain IDs for LI.FI
+// Network mode from environment
+const networkMode = process.env.NEXT_PUBLIC_NETWORK_MODE || "mainnet"
+
+// Chain IDs for LI.FI (dynamic based on network mode)
 export const CHAIN_IDS = {
   ETHEREUM: 1,
   POLYGON: 137,
@@ -49,7 +75,7 @@ export const CHAIN_IDS = {
   BASE: 8453,
   BSC: 56,
   AVALANCHE: 43114,
-  HYPEREVM: 999,
+  HYPEREVM: networkMode === "mainnet" ? 999 : 998,
 } as const
 
 // Supported origin chains for bridging
@@ -60,4 +86,5 @@ export const SUPPORTED_CHAINS = [
   { id: 10, name: "Optimism", symbol: "ETH", logo: "https://assets.coingecko.com/coins/images/25244/small/Optimism.png" },
   { id: 8453, name: "Base", symbol: "ETH", logo: "https://assets.coingecko.com/coins/images/31164/small/base.png" },
   { id: 56, name: "BNB Chain", symbol: "BNB", logo: "https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png" },
+  { id: 999, name: "Hyperliquid", symbol: "HYPE", logo: "https://assets.coingecko.com/coins/images/40367/standard/hyperliquid.jpg" },
 ] as const

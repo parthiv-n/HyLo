@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
+import { cn, formatTokenAmount } from "@/lib/utils"
 import {
   CheckCircle2,
   Circle,
@@ -124,8 +124,8 @@ export function TransactionProgress({
                     index < currentStep
                       ? "bg-emerald-500 text-white"
                       : index === currentStep
-                      ? "bg-white/20 text-white ring-2 ring-emerald-400"
-                      : "bg-white/10 text-white/30"
+                        ? "bg-white/20 text-white ring-2 ring-emerald-400"
+                        : "bg-white/10 text-white/30"
                   )}
                 >
                   {index < currentStep ? (
@@ -162,7 +162,7 @@ export function TransactionProgress({
           <div className="flex justify-between items-center mb-3">
             <span className="text-white/50 text-sm">Amount</span>
             <span className="text-white font-medium">
-              {fromAmount} {fromToken} → {toAmount} {toToken}
+              {fromAmount} {fromToken} → {formatTokenAmount(toAmount, 6)} {toToken}
             </span>
           </div>
           <div className="flex justify-between items-center">
